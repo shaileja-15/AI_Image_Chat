@@ -3,7 +3,7 @@ import torch
 from diffusers import DiffusionPipeline
 
 # ---------------- CONFIG ----------------
-MODEL_ID = "SG161222/Realistic_Vision_V2.0"
+MODEL_ID = "runwayml/stable-diffusion-v1-5"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # ---------------- PAGE SETUP ----------------
@@ -14,7 +14,7 @@ st.set_page_config(
 )
 
 st.title("🖼️ AI Image Generator (ChatGPT Style)")
-st.caption("Model: Realistic Vision | Normal vs Professional Prompt")
+st.caption("Model: Stable Diffusion v1.5 | Normal vs Professional Prompt")
 
 # ---------------- LOAD MODEL (ONCE) ----------------
 @st.cache_resource
@@ -47,14 +47,18 @@ if generate and normal_prompt and professional_prompt:
     with st.spinner("Generating images..."):
         img1 = pipe(
             normal_prompt,
-            num_inference_steps=25,
-            guidance_scale=7.5
+            num_inference_steps=20,
+            guidance_scale=7.5,
+            height=384,
+            width=384
         ).images[0]
 
         img2 = pipe(
             professional_prompt,
-            num_inference_steps=25,
-            guidance_scale=7.5
+            num_inference_steps=20,
+            guidance_scale=7.5,
+            height=384,
+            width=384
         ).images[0]
 
     col1, col2 = st.columns(2)
